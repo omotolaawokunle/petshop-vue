@@ -4,14 +4,14 @@ import User from "./User";
 import Payment from "./Payment";
 interface Order {
     uuid: string,
-    products: Array<Product>,
+    products: Product[],
     address: object,
     delivery_fee: number,
     amount: number,
     created_at: string | null,
     updated_at: string | null,
     shipped_at: string | null,
-    order_status: Array<OrderStatus>,
+    order_status: OrderStatus[],
     user: User,
     payment: Payment | null
 }
