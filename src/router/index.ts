@@ -12,6 +12,14 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: '/orders/:id',
+    name: 'view-order',
+    component: () => import('../views/OrderView.vue'),
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('../views/auth/LoginView.vue'),

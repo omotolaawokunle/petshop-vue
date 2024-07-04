@@ -13,3 +13,11 @@ export interface Paginated{
     to: number,
     total: number
 }
+
+export interface NonPaginated{
+    success: boolean,
+    data: object[],
+    error: string | null,
+    errors: object[] | string[],
+    extra?: object[] | string[]
+}
