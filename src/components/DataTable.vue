@@ -3,7 +3,7 @@
         <EasyDataTable v-model:server-options="serverOptions" :server-items-length="totalRecords" :loading="loading"
             :headers="columns" :items="rows" show-index>
             <template v-for="column in columns" #[`item-${column.value}`]="col">
-                <slot :name="`item-${column.value}`" :row="col[column.value]">
+                <slot :name="`item-${column.value}`" :row="{ col, field: column.value }">
                     {{ col[column.value] }}
                 </slot>
             </template>

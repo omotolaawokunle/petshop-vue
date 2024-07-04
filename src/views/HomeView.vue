@@ -1,18 +1,21 @@
 <template>
   <div class="home">
     <data-table :url="url" :columns="columns" :line-numbers="true">
-      <template #item-products="props">
-        {{ props.row.length }}
+      <template #item-products="{ row }">
+        {{ row.col.products.length }}
       </template>
-      <template #item-created_at="props">
-        {{ formatDate(props.row) }}
+      <template #item-created_at="{ row }">
+        {{ formatDate(row.col.created_at) }}
       </template>
-      <template #item-order_status="props">
-        {{ props.row != undefined && props.row.length > 0 ? props.row[props.row.length - 1].title : '-' }}
+      <template #item-order_status="{ row }">
+        {{ row.col.order_status.length > 0 ? row.col.order_status[row.col.order_status.length - 1].title : '-' }}
       </template>
-      <template #item-action>
-        <router-link :to="{ name: 'home' }"
-          class="text-base text-blue-600 hover:text-blue-700 hover:text-underline">View</router-link>
+      <template #item-uuid="{ row }">
+        <router-link :to="{ name: 'view-order', params: { id: row.col.uuid } }"
+          class="text-blue-600 hover:text-blue-700 hover:text-underline">View</router-link>
+      </template>
+      <template #item-amount="{ row }">
+        {{ '¥' + toTwoDecimalPlaces(row.col.amount) }}
       </template>
     </data-table>
   </div>
@@ -29,6 +32,7 @@ export default defineComponent({
   setup() {
     const baseUrl = inject('baseUrl') as string;
     const formatDate = inject('formatDate') as CallableFunction;
+    const toTwoDecimalPlaces = inject('toLocale') as CallableFunction;
     const columns = ref<Header[]>([
       {
         text: 'No. of Products',
@@ -52,12 +56,12 @@ export default defineComponent({
       },
       {
         text: 'Action',
-        value: 'action',
+        value: 'uuid',
         sortable: false,
       }
     ]);
     const url = baseUrl + 'user/orders';
-    return { columns, url, formatDate };
-  }
+    return { columns, url, formatDate, toTwoDecimalPlaces };
+  },
 });
 </script>
