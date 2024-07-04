@@ -10,13 +10,14 @@ interface AuthState {
 
 export const useAuthStore = defineStore('auth', {
     state: (): AuthState => ({
-        isAuthenticated: false,
-        accessToken: null,
+        isAuthenticated: localStorage.getItem('auth_token') != undefined,
+        accessToken: localStorage.getItem('auth_token') != undefined ? localStorage.getItem('auth_token') : null,
     }),
     actions: {
         login(credentials: LoginCredentials) {
             return new Promise((resolve, reject) => {
-                axios.post('', credentials).then(res => {
+                const baseUrl = 'https://pet-shop.buckhill.com.hr/api/v1/';
+                axios.post(baseUrl + 'user/login', credentials).then(res => {
                     this.isAuthenticated = true;
                     this.accessToken = res.data.data.token;
                     this.setAccessToken(res.data.data.token);
@@ -32,21 +33,15 @@ export const useAuthStore = defineStore('auth', {
             this.removeAccessToken();
         },
         setAccessToken(token: string) {
-            const today = new Date();
-            let tomorrow = new Date(new Date().setDate(today.getDate() + 1));
-            tomorrow = new Date(tomorrow.setHours(0, 0, 0));
-            document.cookie = `auth_token=${token}; expires=${tomorrow.toISOString()}`;
+            localStorage.setItem('auth_token', token);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         },
         getAccessToken() {
-            const allCookieParts = document.cookie.split(';');
-            const matchingCookie = allCookieParts.find(part => part.trim().startsWith('auth_token='));
-            if (matchingCookie) {
-                return matchingCookie.split('=')[1];
-            }
-            return null;
+            return localStorage.getItem('auth_token') != undefined ? localStorage.getItem('auth_token') : null ;
         },
         removeAccessToken() {
-            document.cookie = "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+            localStorage.removeItem('auth_token');
+            delete axios.defaults.headers.common['Authorization'];
         },
     },
 })
