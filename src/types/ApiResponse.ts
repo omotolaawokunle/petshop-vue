@@ -1,3 +1,8 @@
+import Order from "./Order";
+import Product from "./Product";
+import User from "./User";
+import Payment from "./Payment";
+import OrderStatus from "./OrderStatus";
 export interface Paginated{
     current_page: number,
     data: object[],
@@ -16,7 +21,7 @@ export interface Paginated{
 
 export interface NonPaginated{
     success: boolean,
-    data: object[],
+    data: Order | Product | User | OrderStatus | Payment,
     error: string | null,
     errors: object[] | string[],
     extra?: object[] | string[]

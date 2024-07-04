@@ -72,7 +72,7 @@
 
 <script lang="ts">
     import { defineComponent, ref, inject } from 'vue';
-    import { Order } from '@/types/Order';
+    import Order from '@/types/Order';
     import { useRoute } from 'vue-router';
     import axios from 'axios';
     import { NonPaginated } from '@/types/ApiResponse';
@@ -85,7 +85,34 @@
             const baseUrl = inject('baseUrl') as string;
             const formatDate = inject('formatDate') as CallableFunction;
             const toTwoDecimalPlaces = inject('toLocale') as CallableFunction;
-            const order = ref<Order>({});
+            const order = ref<Order>({
+                uuid: '',
+                products: [],
+                address: {
+                    shipping: '',
+                    billing: ''
+                },
+                delivery_fee: 0,
+                amount: 0,
+                created_at: null,
+                updated_at: null,
+                shipped_at: null,
+                order_status: [],
+                user: {
+                    uuid: '', first_name: '',
+                    last_name: '',
+                    email: '',
+                    email_verified_at: null,
+                    avatar: '',
+                    address: '',
+                    phone_number: '',
+                    is_marketing: 0,
+                    created_at: null,
+                    updated_at: null,
+                    last_login_at: null
+                },
+                payment: null
+            });
             const route = useRoute();
             const url = baseUrl + 'order/' + route.params.id;
             const toast = useToast();
@@ -96,7 +123,7 @@
         mounted() {
             this.loading = true;
             axios.get<NonPaginated>(this.url).then(response => {
-                this.order = response.data.data;
+                this.order = response.data.data as Order;
             }).catch(error => {
                 this.toast.error("Error loading data: " + error.response.data.error ?? error.response.data.message)
             }).finally(() => this.loading = false);
