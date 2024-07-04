@@ -1,24 +1,49 @@
-# petshop-vue
+```markdown
+# Petshop UI Project Setup Guide
 
-## Project setup
-```
-npm install
-```
+This guide will help you set up the `petshop-vue` project.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Prerequisites
 
-### Compiles and minifies for production
-```
-npm run build
-```
+- Node LTS v20.14.0
+- NPM
+- Git
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Installation
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/omotolaawokunle/petshop-vue.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd petshop-vue
+   ```
+
+3. Install NPM dependencies:
+
+   ```bash
+   npm install
+   ```
+
+## Running the Project
+
+1. Serve the application:
+
+   ```bash
+   npm run serve
+   ```
+
+2. Access the application in your web browser at `localhost:8080`.
+
+
+## Credits
+
+- [Petshop UI Project](https://github.com/omotolaawokunle/petshop-vue)
+
+## License
+
+This project is open-source and available under the [MIT License](LICENSE).
